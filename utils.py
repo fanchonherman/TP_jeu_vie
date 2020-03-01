@@ -28,3 +28,6 @@ def iteration_jeu(Z):
             elif Z[x][y] == 0 and N[x][y] == 3:
                 Z[x][y] = 1
     return Z
+
+    
+
