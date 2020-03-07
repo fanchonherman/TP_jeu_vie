@@ -1,3 +1,8 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.animation as animation
+
+
 def calcul_nb_voisins(Z):
     forme = len(Z), len(Z[0])
     N = [[0, ] * (forme[0]) for i in range(forme[1])]
@@ -9,25 +14,25 @@ def calcul_nb_voisins(Z):
     return N
 
 
+def affichage_iterations(mat, fonction):
+    plt.figure(figsize=(10, 5))
+    mat_iter = (np.array(mat))
+    plt.subplot(2, 5, 1)
+    plt.imshow(mat_iter)
+    plt.title("itération " + "0")
+    for i in range(2, 11):
+        mat_iter = fonction(mat_iter)
+        plt.subplot(2, 5, i)
+        plt.imshow(mat_iter)
+        plt.title("itération " + str(i-1))
 
 
-def iteration_jeu(Z):
-    """ 
-    Cette fonction prends en entrée et renvoie en sortie une liste de liste
-    Les boucles ne prennent pas en compte les pourtours de la grille car
-    considéré inactif/mort. En entrée on a une liste de liste qui représente l'initialisation du jeu
-    En sortie on a une liste de liste qui représente le jeu à l'étape suivante
-    Le code effectue les transitions a) b) c) et d) 
-    """
-    forme = len(Z), len(Z[0])
-    N = calcul_nb_voisins(Z)
-    for x in range(1, forme[0]-1):
-        for y in range(1, forme[1]-1):
-            if Z[x][y] == 1 and (N[x][y] < 2 or N[x][y] > 3):
-                Z[x][y] = 0
-            elif Z[x][y] == 0 and N[x][y] == 3:
-                Z[x][y] = 1
-    return Z
-
+def animation_mat(init, fonction):
+    def animate(i):
+        mat.set_array(fonction(init, i))
+    fig, ax = plt.subplots()
+    mat = ax.matshow(init)
+    ani = animation.FuncAnimation(fig, animate, frames=200)
+    plt.show()
+    return(ani)
     
-
