@@ -35,4 +35,3 @@ def animation_mat(init, fonction):
     ani = animation.FuncAnimation(fig, animate, frames=200)
     plt.show()
     return(ani)
-    
